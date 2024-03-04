@@ -1,9 +1,6 @@
 # roles/cilium_hubble/tasks/main.yml
 ---
-- name: install pre-requisites
-  pip3:
-    name:
-      - hvac
+
 - name: Retrieve kubeconfig from Vault and write to ~/.kube/config
   block:
     - name: Retrieve kubeconfig from Vault
