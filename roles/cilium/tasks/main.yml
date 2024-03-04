@@ -12,7 +12,7 @@
 
     - name: Write kubeconfig to ~/.kube/config
       ansible.builtin.copy:
-        dest: "{{ ansible_env.HOME }}/.kube/config"
+        dest: "~/.kube/config"
         content: "{{ kubeconfig_content }}"
         mode: '0600'
   tags: ['always']
