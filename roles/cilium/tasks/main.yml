@@ -10,12 +10,16 @@
         VAULT_ADDR: "{{ vault_address }}"
         VAULT_TOKEN: "{{ vault_token }}"
 
-    - name: Process kubeconfig with yq to ensure proper YAML format
+    - name: Write kubeconfig to /root/.kube/config
+      ansible.builtin.copy:
+        dest: "/tmp/config"
+        content: "{{ _kubeconfig_content }}"
+        mode: '0600'
+    - name: Process kubeconfig with yq and write to the correct location
       ansible.builtin.shell: |
-        echo '{{ _kubeconfig_content }}' | yq eval -P - > /root/.kube/config
+        yq eval -P /tmp/config > /root/.kube/config
       args:
         executable: /bin/bash
-      # Assuming this directory is already writable by user 1000.
   tags: ['always']
 
 
