@@ -64,7 +64,7 @@
   
 - name: Install apache2-utils package
   yum:
-    name: apache2-utils
+    name: httpd-tools 
     state: present
 
 - name: Create htpasswd file
