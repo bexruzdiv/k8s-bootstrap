@@ -1,5 +1,8 @@
 ---
 # defaults file for cilium
+vault_address: http://18.212.236.56:8200
+vault_token: hvs.DpMVigg8GjQxhEdPFAYZpwz7
+
 
 cilium_version: 1.14.6
 kubeconfig: /root/.kube/config

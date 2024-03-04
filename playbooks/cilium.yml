@@ -1,5 +1,5 @@
 - name: Set cilium network plugin to k8s cluster
   hosts: k8s-master
-  gather_facts: False
+  gather_facts: True
   roles:
     - role: ../roles/cilium 

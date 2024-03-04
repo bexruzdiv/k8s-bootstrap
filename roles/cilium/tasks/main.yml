@@ -1,6 +1,22 @@
 # roles/cilium_hubble/tasks/main.yml
-
 ---
+
+- name: Retrieve kubeconfig from Vault and write to ~/.kube/config
+  block:
+    - name: Retrieve kubeconfig from Vault
+      ansible.builtin.set_fact:
+        kubeconfig_content: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=secret/k8s/kubeconfig', auth_method='token', token=vault_token, url=vault_address) }}"
+      environment:
+        VAULT_ADDR: "{{ vault_address }}"
+        VAULT_TOKEN: "{{ vault_token }}"
+
+    - name: Write kubeconfig to ~/.kube/config
+      ansible.builtin.copy:
+        dest: "{{ ansible_env.HOME }}/.kube/config"
+        content: "{{ kubeconfig_content }}"
+        mode: '0600'
+  tags: ['always']
+
 - ansible.builtin.shell:
     cmd: helm repo add cilium https://helm.cilium.io/
   args:
