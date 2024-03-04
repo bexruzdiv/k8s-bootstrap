@@ -5,7 +5,7 @@
   block:
     - name: Retrieve kubeconfig from Vault
       ansible.builtin.set_fact:
-        _kubeconfig_content: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=secret/data/k8s/kubeconfig', auth_method='token', token=vault_token, url=vault_address) }}"
+        _kubeconfig_content: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=secret/k8s/kubeconfig', auth_method='token', token=vault_token, url=vault_address) }}"
       environment:
         VAULT_ADDR: "{{ vault_address }}"
         VAULT_TOKEN: "{{ vault_token }}"
