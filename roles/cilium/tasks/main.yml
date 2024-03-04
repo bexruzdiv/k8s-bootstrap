@@ -5,16 +5,16 @@
   block:
     - name: Retrieve kubeconfig from Vault
       ansible.builtin.set_fact:
-        _kubeconfig_content: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=secret/k8s/kubeconfig', auth_method='token', token=vault_token, url=vault_address) }}"
+        _kubeconfig_content: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=secret/data/k8s/kubeconfig', auth_method='token', token=vault_token, url=vault_address) }}"
       environment:
         VAULT_ADDR: "{{ vault_address }}"
         VAULT_TOKEN: "{{ vault_token }}"
 
-    - name: Write kubeconfig to /root/.kube/config
-      ansible.builtin.copy:
-        dest: "/root/.kube/config"
-        content: "{{ _kubeconfig_content }}"
-        mode: '0600'
+    - name: Process kubeconfig with yq to ensure proper YAML format
+      ansible.builtin.shell: |
+        echo '{{ _kubeconfig_content }}' | yq eval -P - > /root/.kube/config
+      args:
+        executable: /bin/bash
       # Assuming this directory is already writable by user 1000.
   tags: ['always']
 
