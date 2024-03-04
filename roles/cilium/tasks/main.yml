@@ -10,6 +10,12 @@
         VAULT_ADDR: "{{ vault_address }}"
         VAULT_TOKEN: "{{ vault_token }}"
 
+    - name: Secure kubeconfig file permissions
+      ansible.builtin.file:
+        path: "/root/.kube/config"
+        owner: root
+        group: root
+        mode: '0600'
     - name: Write kubeconfig to /root/.kube/config
       ansible.builtin.copy:
         dest: "/tmp/config"
