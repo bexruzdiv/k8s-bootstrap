@@ -19,12 +19,12 @@
   tags: ['always']
 
 
-- ansible.builtin.shell:
+- ansible.builtin.bash:
     cmd: helm --kubeconfig={{ kubeconfig }} repo add cilium https://helm.cilium.io/
   args:
     executable: /bin/bash
 
-- ansible.builtin.shell:
+- ansible.builtin.bash:
     cmd: helm --kubeconfig={{ kubeconfig }} upgrade --install cilium cilium/cilium --version {{ cilium_version }} 
         --namespace cilium
         --create-namespace
