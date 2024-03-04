@@ -10,17 +10,9 @@
         VAULT_ADDR: "{{ vault_address }}"
         VAULT_TOKEN: "{{ vault_token }}"
 
-    # This step is contingent on having write access to /runner/.kube or it existing with proper permissions.
-    - name: Ensure /runner/.kube directory exists
-      ansible.builtin.file:
-        path: /runner/.kube
-        state: directory
-        mode: '0755'
-      # Removed the ownership change and become: yes due to lack of sudo.
-
-    - name: Write kubeconfig to /runner/.kube/config
+    - name: Write kubeconfig to /root/.kube/config
       ansible.builtin.copy:
-        dest: "/runner/.kube/config"
+        dest: "/root/.kube/config"
         content: "{{ _kubeconfig_content }}"
         mode: '0600'
       # Assuming this directory is already writable by user 1000.
