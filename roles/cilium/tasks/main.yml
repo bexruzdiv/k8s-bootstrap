@@ -63,7 +63,7 @@
   register: kubectl_output
   
 - name: Install apache2-utils package
-  apt:
+  yum:
     name: apache2-utils
     state: present
 
