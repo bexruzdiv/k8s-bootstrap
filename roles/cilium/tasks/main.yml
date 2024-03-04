@@ -35,7 +35,7 @@
 
 - ansible.builtin.shell:
     cmd: helm --kubeconfig={{ kubeconfig }} upgrade --install cilium cilium/cilium --version {{ cilium_version }} 
-        --namespace cilium
+        --namespace cilium2 
         --create-namespace
         --set hubble.relay.enabled={{ cilium_hubble_relay }}
         --set hubble.ui.enabled={{ cilium_hubble_ui }} 
@@ -59,7 +59,7 @@
       PASSWORD: "{{ cilium_hubble_password }}"
 
 - name: Create Kubernetes secret
-  command: kubectl create secret generic save-hubble-basic-auth --from-literal=username="{{ cilium_hubble_username }}" --from-literal=password="{{ cilium_hubble_password }}" --namespace=cilium
+  command: kubectl create secret generic save-hubble-basic-auth --from-literal=username="{{ cilium_hubble_username }}" --from-literal=password="{{ cilium_hubble_password }}" --namespace=cilium2
   register: kubectl_output
   
 - name: Install apache2-utils package
@@ -73,7 +73,7 @@
     creates: "{{ cilium_ingress_file_path }}/htpasswd"
 
 - name: Create Kubernetes secret from htpasswd file
-  command: kubectl create secret generic hubble-basic-auth --from-file=auth={{ cilium_ingress_file_path }}/htpasswd --namespace cilium
+  command: kubectl create secret generic hubble-basic-auth --from-file=auth={{ cilium_ingress_file_path }}/htpasswd --namespace cilium2
   args:
     creates: basic-auth-secret
   
