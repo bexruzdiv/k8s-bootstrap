@@ -1,7 +1,7 @@
 # roles/cilium_hubble/tasks/main.yml
 ---
 
-- name: Retrieve kubeconfig from Vault and write to /runner/.kube/config
+- name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
       ansible.builtin.set_fact:
@@ -10,12 +10,22 @@
         VAULT_ADDR: "{{ vault_address }}"
         VAULT_TOKEN: "{{ vault_token }}"
 
+    # This step is contingent on having write access to /runner/.kube or it existing with proper permissions.
+    - name: Ensure /runner/.kube directory exists
+      ansible.builtin.file:
+        path: /runner/.kube
+        state: directory
+        mode: '0755'
+      # Removed the ownership change and become: yes due to lack of sudo.
+
     - name: Write kubeconfig to /runner/.kube/config
       ansible.builtin.copy:
         dest: "/runner/.kube/config"
         content: "{{ _kubeconfig_content }}"
         mode: '0600'
+      # Assuming this directory is already writable by user 1000.
   tags: ['always']
+
 
 - ansible.builtin.shell:
     cmd: helm repo add cilium https://helm.cilium.io/
