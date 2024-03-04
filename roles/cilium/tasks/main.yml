@@ -4,29 +4,28 @@
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
-      ansible.builtin.set_fact:
-        _kubeconfig_content: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=secret/data/k8s/kubeconfig', auth_method='token', token=vault_token, url=vault_address) }}"
+      shell: vault kv get -field=value secret/k8s/kubeconfig
       environment:
         VAULT_ADDR: "{{ vault_address }}"
         VAULT_TOKEN: "{{ vault_token }}"
+      register: __kubeconfig_json
 
-    - name: Write kubeconfig to /root/.kube/config
-      ansible.builtin.copy:
-        dest: "/tmp/config"
-        content: "{{ _kubeconfig_content }}"
-        mode: '0600'
-    - name: Process kubeconfig with yq and write to the correct location
-      ansible.builtin.shell: |
-        yq eval -P /tmp/config > /root/.kube/config
-      args:
-        executable: /bin/bash
-    - name: Secure kubeconfig file permissions
-      ansible.builtin.file:
-        path: "/root/.kube/config"
-        owner: root
-        group: root
-        mode: '0600'
-  tags: ['always']
+- name: Convert JSON to YAML and save to a variable
+  set_fact:
+    _kubeconfig_content: "{{ __kubeconfig_json.stdout | from_json | to_nice_yaml }}"
+
+- name: Ensure .kube directory exists
+  file:
+    path: "/root/.kube"
+    state: directory
+    mode: '0755'
+
+- name: Save kubeconfig to /root/.kube/config
+  copy:
+    content: "{{ _kubeconfig_content }}"
+    dest: "/root/.kube/config"
+    mode: '0600'
+
 
 
 - ansible.builtin.shell:
