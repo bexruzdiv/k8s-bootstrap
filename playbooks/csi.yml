@@ -1,5 +1,4 @@
 
-
 - name: Get certificate with certmanger to k8s cluster
   hosts: localhost
   gather_facts: True
