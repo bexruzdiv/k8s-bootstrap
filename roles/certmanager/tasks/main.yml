@@ -9,10 +9,10 @@
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
-      shell: vault kv get -field=value {{ prxmkuberbootstrap_certmanager_kubeconfig_vault_path }}
+      shell: vault kv get -field=value {{ certmanager_kubeconfig_vault_path }}
       environment:
-        VAULT_ADDR: "{{ prxmkuberbootstrap_certmanager_vault_address }}"
-        VAULT_TOKEN: "{{ prxmkuberbootstrap_certmanager_vault_token }}"
+        VAULT_ADDR: "{{ certmanager_vault_address }}"
+        VAULT_TOKEN: "{{ certmanager_vault_token }}"
       register: __kubeconfig_json
 
 - name: Convert JSON to YAML and save to a variable
@@ -38,12 +38,12 @@
 
 - name: Install or upgrade cert-manager with custom values
   community.kubernetes.helm:
-    kubeconfig: "{{ prxmkuberbootstrap_certmanager_kubeconfig }}"
+    kubeconfig: "{{ certmanager_kubeconfig }}"
     name: cert-manager
     chart_ref: jetstack/cert-manager
     release_namespace: cert-manager
     create_namespace: true
-    chart_version: "{{ prxmkuberbootstrap_certmanager_version }}"
+    chart_version: "{{ certmanager_version }}"
     release_values:
       installCRDs: true
       prometheus:

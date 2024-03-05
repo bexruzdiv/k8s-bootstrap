@@ -9,10 +9,10 @@
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
-      shell: vault kv get -field=value {{ prxmkuberbootstrap_ingress_nginx_kubeconfig_vault_path }}
+      shell: vault kv get -field=value {{ ingress_nginx_kubeconfig_vault_path }}
       environment:
-        VAULT_ADDR: "{{ prxmkuberbootstrap_ingress_nginx_vault_address }}"
-        VAULT_TOKEN: "{{ prxmkuberbootstrap_ingress_nginx_vault_token }}"
+        VAULT_ADDR: "{{ ingress_nginx_vault_address }}"
+        VAULT_TOKEN: "{{ ingress_nginx_vault_token }}"
       register: __kubeconfig_json
 
 - name: Convert JSON to YAML and save to a variable
@@ -38,7 +38,7 @@
 
 - name: Install nginx-ingress with Helm
   community.kubernetes.helm:
-    kubeconfig: "{{ prxmkuberbootstrap_ingress_nginx_kubeconfig }}"
+    kubeconfig: "{{ ingress_nginx_kubeconfig }}"
     name: nginx-ingress
     chart_ref: ingress-nginx/ingress-nginx
     release_namespace: ingress-nginx

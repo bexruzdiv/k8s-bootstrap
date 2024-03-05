@@ -10,10 +10,10 @@
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
-      shell: vault kv get -field=value {{ prxmkuberbootstrap_cilium_kubeconfig_vault_path }}
+      shell: vault kv get -field=value {{ cilium_kubeconfig_vault_path }}
       environment:
-        VAULT_ADDR: "{{ prxmkuberbootstrap_cilium_vault_address }}"
-        VAULT_TOKEN: "{{ prxmkuberbootstrap_cilium_vault_token }}"
+        VAULT_ADDR: "{{ cilium_vault_address }}"
+        VAULT_TOKEN: "{{ cilium_vault_token }}"
       register: __kubeconfig_json
 
 - name: Convert JSON to YAML and save to a variable
@@ -41,18 +41,18 @@
   community.kubernetes.helm:
     name: cilium
     chart_ref: cilium/cilium
-    chart_version: "{{ prxmkuberbootstrap_cilium_version }}"
+    chart_version: "{{ cilium_version }}"
     release_namespace: cilium
     create_namespace: true
     release_values:
       hubble:
         relay:
-          enabled: "{{ prxmkuberbootstrap_cilium_hubble_relay }}"
+          enabled: "{{ cilium_hubble_relay }}"
         ui:
-          enabled: "{{ prxmkuberbootstrap_cilium_hubble_ui }}"
+          enabled: "{{ cilium_hubble_ui }}"
         tls:
           auto:
-            enabled: "{{ prxmkuberbootstrap_cilium_hubble_tls_auto }}"
+            enabled: "{{ cilium_hubble_tls_auto }}"
             method: "helm"
             certValidityDuration: 1095
             
@@ -82,18 +82,18 @@
 - name: Create htpasswd file
   command: htpasswd -bc /root/htpasswd {{ _cilium_hubble_username }} {{ _cilium_hubble_password }}
   args:
-    creates: "{{ prxmkuberbootstrap_cilium_ingress_file_path }}/htpasswd"
+    creates: "{{ cilium_ingress_file_path }}/htpasswd"
 
 - name: Create Kubernetes secret from htpasswd file
-  command: kubectl create secret generic hubble-basic-auth --from-file=auth={{ prxmkuberbootstrap_cilium_ingress_file_path }}/htpasswd --namespace cilium
+  command: kubectl create secret generic hubble-basic-auth --from-file=auth={{ cilium_ingress_file_path }}/htpasswd --namespace cilium
   args:
     creates: basic-auth-secret
   
 - name: Copy Jinja2 template to target directory
   ansible.builtin.template:
     src: templates/ingress.j2
-    dest: "{{ prxmkuberbootstrap_cilium_ingress_file_path }}/ingress-hubble.yml"
+    dest: "{{ cilium_ingress_file_path }}/ingress-hubble.yml"
 
 - name: Apply ingress configuration
-  ansible.builtin.command: kubectl apply -f {{ prxmkuberbootstrap_cilium_ingress_file_path }}/ingress-hubble.yml
+  ansible.builtin.command: kubectl apply -f {{ cilium_ingress_file_path }}/ingress-hubble.yml
 

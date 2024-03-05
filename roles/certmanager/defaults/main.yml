@@ -1,10 +1,10 @@
 ---
-# defaults file for prxmkuberbootstrap_certmanager
-prxmkuberbootstrap_certmanager_vault_address: http://18.212.236.56:8200
-prxmkuberbootstrap_certmanager_vault_token: hvs.DpMVigg8GjQxhEdPFAYZpwz7
+# defaults file for certmanager
+certmanager_vault_address: http://18.212.236.56:8200
+certmanager_vault_token: hvs.DpMVigg8GjQxhEdPFAYZpwz7
 
-prxmkuberbootstrap_certmanager_kubeconfig_vault_path: secret/k8s/kubeconfig
+certmanager_kubeconfig_vault_path: secret/k8s/kubeconfig
 
-prxmkuberbootstrap_certmanager_kubeconfig: /root/.kube/config  # your kubeconfig file location
-prxmkuberbootstrap_certmanager_email: bexruzturobjonov0955@gmail.com # your email
-prxmkuberbootstrap_certmanager_version: v1.13.2 
+certmanager_kubeconfig: /root/.kube/config  # your kubeconfig file location
+certmanager_email: bexruzturobjonov0955@gmail.com # your email
+certmanager_version: v1.13.2 
