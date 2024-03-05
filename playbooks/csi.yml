@@ -2,6 +2,6 @@
 
 - name: Get certificate with certmanger to k8s cluster
   hosts: localhost
-  gather_facts: False
+  gather_facts: True
   roles:
     - role: ../roles/csi

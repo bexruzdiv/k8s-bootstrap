@@ -4,10 +4,10 @@
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
-      shell: vault kv get -field=value {{ kubeconfig_vault_path }}
+      shell: vault kv get -field=value {{ prxmkuberbootstrap_cilium_kubeconfig_vault_path }}
       environment:
-        VAULT_ADDR: "{{ vault_address }}"
-        VAULT_TOKEN: "{{ vault_token }}"
+        VAULT_ADDR: "{{ prxmkuberbootstrap_cilium_vault_address }}"
+        VAULT_TOKEN: "{{ prxmkuberbootstrap_cilium_vault_token }}"
       register: __kubeconfig_json
 
 - name: Convert JSON to YAML and save to a variable
@@ -29,37 +29,41 @@
 
 
 - ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ kubeconfig }} repo add cilium https://helm.cilium.io/
+    cmd: helm --kubeconfig={{ prxmkuberbootstrap_cilium_kubeconfig }} repo add cilium https://helm.cilium.io/
   args:
     executable: /bin/bash
 
+- name: Update Helm Repositories
+  ansible.builtin.shell:
+    cmd: helm --kubeconfig={{ prxmkuberbootstrap_cilium_kubeconfig }} repo update
+
 - ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ kubeconfig }} upgrade --install cilium cilium/cilium --version {{ cilium_version }} 
+    cmd: helm --kubeconfig={{ prxmkuberbootstrap_cilium_kubeconfig }} upgrade --install cilium cilium/cilium --version {{ prxmkuberbootstrap_cilium_version }} 
         --namespace cilium 
         --create-namespace
-        --set hubble.relay.enabled={{ cilium_hubble_relay }}
-        --set hubble.ui.enabled={{ cilium_hubble_ui }} 
-        --set hubble.tls.auto.enabled={{ cilium_hubble_tls_auto }}
+        --set hubble.relay.enabled={{ prxmkuberbootstrap_cilium_hubble_relay }}
+        --set hubble.ui.enabled={{ prxmkuberbootstrap_cilium_hubble_ui }} 
+        --set hubble.tls.auto.enabled={{ prxmkuberbootstrap_cilium_hubble_tls_auto }}
         --set hubble.tls.auto.method=helm 
         --set hubble.tls.auto.certValidityDuration=1095
   args:
     executable: /bin/bash
 - name: Generate random username
   set_fact:
-    cilium_hubble_username: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=8') }}"
+    _cilium_hubble_username: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=8') }}"
 
 - name: Generate random password
   set_fact:
-    cilium_hubble_password: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=16') }}"
+    _cilium_hubble_password: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=16') }}"
 
 - name: Set environment variables
   set_fact:
     ansible_env:
-      USERNAME: "{{ cilium_hubble_username }}"
-      PASSWORD: "{{ cilium_hubble_password }}"
+      USERNAME: "{{ _cilium_hubble_username }}"
+      PASSWORD: "{{ _cilium_hubble_password }}"
 
 - name: Create Kubernetes secret
-  command: kubectl create secret generic save-hubble-basic-auth --from-literal=username="{{ cilium_hubble_username }}" --from-literal=password="{{ cilium_hubble_password }}" --namespace=cilium
+  command: kubectl create secret generic save-hubble-basic-auth --from-literal=username="{{ _cilium_hubble_username }}" --from-literal=password="{{ _cilium_hubble_password }}" --namespace=cilium
   register: kubectl_output
   
 - name: Install apache2-utils package
@@ -68,20 +72,20 @@
     state: present
 
 - name: Create htpasswd file
-  command: htpasswd -bc /root/htpasswd {{ cilium_hubble_username }} {{ cilium_hubble_password }}
+  command: htpasswd -bc /root/htpasswd {{ _cilium_hubble_username }} {{ _cilium_hubble_password }}
   args:
-    creates: "{{ cilium_ingress_file_path }}/htpasswd"
+    creates: "{{ prxmkuberbootstrap_cilium_ingress_file_path }}/htpasswd"
 
 - name: Create Kubernetes secret from htpasswd file
-  command: kubectl create secret generic hubble-basic-auth --from-file=auth={{ cilium_ingress_file_path }}/htpasswd --namespace cilium
+  command: kubectl create secret generic hubble-basic-auth --from-file=auth={{ prxmkuberbootstrap_cilium_ingress_file_path }}/htpasswd --namespace cilium
   args:
     creates: basic-auth-secret
   
 - name: Copy Jinja2 template to target directory
   ansible.builtin.template:
     src: templates/ingress.j2
-    dest: "{{ cilium_ingress_file_path }}/ingress-hubble.yml"
+    dest: "{{ prxmkuberbootstrap_cilium_ingress_file_path }}/ingress-hubble.yml"
 
 - name: Apply ingress configuration
-  ansible.builtin.command: kubectl apply -f {{ cilium_ingress_file_path }}/ingress-hubble.yml
+  ansible.builtin.command: kubectl apply -f {{ prxmkuberbootstrap_cilium_ingress_file_path }}/ingress-hubble.yml
 
