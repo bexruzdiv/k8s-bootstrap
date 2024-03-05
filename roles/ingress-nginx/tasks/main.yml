@@ -46,9 +46,9 @@
     release_values:
       controller:
         hostPort:
-          enabled: "{{ nginx_ingress_controller_hostPort_enabled }}"
-        hostNetwork: "{{ nginx_ingress_controller_hostNetwork }}"
+          enabled: "{{ ingress_nginx_hostPort_enabled }}"
+        hostNetwork: "{{ ingress_nginx_hostNetwork }}"
         service:
-          type: "{{ nginx_ingress_controller_service_type }}"
-        kind: "{{ nginx_ingress_controller_kind }}"
+          type: "{{ ingress_nginx_service_type }}"
+        kind: "{{ ingress_nginx_kind }}"
 

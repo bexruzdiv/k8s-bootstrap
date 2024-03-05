@@ -1,12 +1,12 @@
 ---
 # default file for ingress-nginx
-ingress_nginx_vault_address: http://18.212.236.56:8200
-ingress_nginx_vault_token: hvs.DpMVigg8GjQxhEdPFAYZpwz7
-ingress_nginx_kubeconfig_vault_path: secret/k8s/kubeconfig
-ingress_nginx_kubeconfig: /root/.kube/config
+ingress_nginx_vault_address:  # your vault domain or ip
+ingress_nginx_vault_token: # your vault token
+ingress_nginx_kubeconfig_vault_path: # path to kube config file in vault
+ingress_nginx_kubeconfig: /root/.kube/config   # path to your kube config #if you are using awx, dont change it
 
 
-nginx_ingress_controller_hostPort_enabled: true   #use "true" if the k8s cluster is Bare Metal
-nginx_ingress_controller_hostNetwork: true   #use "true" if the k8s cluster is Bare Metal
-nginx_ingress_controller_service_type: ClusterIP # use "ClusterIP" if the k8s cluster is Bare Metal
-nginx_ingress_controller_kind: DaemonSet # use "DaemonSet" if the k8s cluster is Bare Metal
+ingress_nginx_hostPort_enabled: false   #use "true" if the k8s cluster is Bare Metal
+ingress_nginx_hostNetwork: false   #use "true" if the k8s cluster is Bare Metal
+ingress_nginx_service_type: LoadBalancer # use "ClusterIP" if the k8s cluster is Bare Metal
+ingress_nginx_kind: Deployment # use "DaemonSet" if the k8s cluster is Bare Metal
