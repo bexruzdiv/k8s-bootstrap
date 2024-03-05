@@ -2,10 +2,10 @@
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
-      shell: vault kv get -field=value {{ kubeconfig_vault_path }}
+      shell: vault kv get -field=value {{ prxmkuberbootstrap_ingress_nginx_kubeconfig_vault_path }}
       environment:
-        VAULT_ADDR: "{{ vault_address }}"
-        VAULT_TOKEN: "{{ vault_token }}"
+        VAULT_ADDR: "{{ prxmkuberbootstrap_ingress_nginx_vault_address }}"
+        VAULT_TOKEN: "{{ prxmkuberbootstrap_ingress_nginx_vault_token }}"
       register: __kubeconfig_json
 
 - name: Convert JSON to YAML and save to a variable
@@ -26,19 +26,19 @@
     
 - name: Add Ingress-Nginx Helm repository
   ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ kubeconfig }} repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    cmd: helm --kubeconfig={{ prxmkuberbootstrap_ingress_nginx_kubeconfig }} repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
   args:
     executable: /bin/bash
 
 - name: Update Helm repositories
   ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ kubeconfig }} repo update
+    cmd: helm --kubeconfig={{ prxmkuberbootstrap_ingress_nginx_kubeconfig }} repo update
   args:
     executable: /bin/bash
 
 - name: Install nginx-ingress with Helm
   ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ kubeconfig }} install nginx-ingress ingress-nginx/ingress-nginx 
+    cmd: helm --kubeconfig={{ prxmkuberbootstrap_ingress_nginx_kubeconfig }} install nginx-ingress ingress-nginx/ingress-nginx 
         --namespace ingress-nginx 
         --create-namespace
         --set controller.hostPort.enabled={{ nginx_ingress_controller_hostPort_enabled }} 
