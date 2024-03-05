@@ -1,4 +1,29 @@
 ---
+- name: Retrieve kubeconfig from Vault and write to a user-writable location
+  block:
+    - name: Retrieve kubeconfig from Vault
+      shell: vault kv get -field=value {{ kubeconfig_vault_path }}
+      environment:
+        VAULT_ADDR: "{{ vault_address }}"
+        VAULT_TOKEN: "{{ vault_token }}"
+      register: __kubeconfig_json
+
+- name: Convert JSON to YAML and save to a variable
+  set_fact:
+    _kubeconfig_content: "{{ __kubeconfig_json.stdout | from_json | to_nice_yaml }}"
+
+- name: Ensure .kube directory exists
+  file:
+    path: "/root/.kube"
+    state: directory
+    mode: '0755'
+
+- name: Save kubeconfig to /root/.kube/config
+  copy:
+    content: "{{ _kubeconfig_content }}"
+    dest: "/root/.kube/config"
+    mode: '0600'
+
 - name: Add Jetstack Helm Repository
   ansible.builtin.shell:
     cmd: helm --kubeconfig={{ kubeconfig }} repo add jetstack https://charts.jetstack.io

@@ -1,5 +1,9 @@
 ---
 # defaults file for csi
+vault_address: http://18.212.236.56:8200
+vault_token: hvs.DpMVigg8GjQxhEdPFAYZpwz7
+kubeconfig_vault_path: secret/k8s/kubeconfig
+
 cni_hcloud_check: true   # set to "true" for use hcloud-csi-driver 
 csi_kubeconfig: /root/.kube/config
 csi_hcloud_api_token: "VSTtj0tjwxD3lCBv1ZoJjkuhCNThehmw1KOFbRK53BO3FJOt0TvqLSlKfBZ9bhsc"

@@ -3,9 +3,9 @@
 vault_address: http://18.212.236.56:8200
 vault_token: hvs.DpMVigg8GjQxhEdPFAYZpwz7
 
-
-cilium_version: 1.14.6
+kubeconfig_vault_path: secret/k8s/kubeconfig
 kubeconfig: /root/.kube/config
+cilium_version: 1.14.6
 cilium_ingress_file_path: /root
 cilium_hubble_domain: hubble.bexruzdev.uz
 cilium_hubble_relay: true

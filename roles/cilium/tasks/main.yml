@@ -4,7 +4,7 @@
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
-      shell: vault kv get -field=value secret/k8s/kubeconfig
+      shell: vault kv get -field=value {{ kubeconfig_vault_path }}
       environment:
         VAULT_ADDR: "{{ vault_address }}"
         VAULT_TOKEN: "{{ vault_token }}"
