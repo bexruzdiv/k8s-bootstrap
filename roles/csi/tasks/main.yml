@@ -28,7 +28,7 @@
     
 - name: Add hcloud-csi Helm repository
   when:
-    - cni_hcloud_check|bool
+    - prxmkuberbootstrap_cni_hcloud_check|bool
   ansible.builtin.shell:
     cmd: helm --kubeconfig={{ prxmkuberbootstrap_csi_kubeconfig }} repo add mlohr https://helm-charts.mlohr.com/
   args:
@@ -61,7 +61,7 @@
 
 - name: Install or Upgrade hcloud-csi-driver with Helm
   when:
-    - cni_hcloud_check|bool
+    - prxmkuberbootstrap_cni_hcloud_check|bool
   ansible.builtin.shell:
     cmd: >
       helm --kubeconfig={{ prxmkuberbootstrap_csi_kubeconfig }} upgrade --install hcloud-csi-driver mlohr/hcloud-csi-driver
