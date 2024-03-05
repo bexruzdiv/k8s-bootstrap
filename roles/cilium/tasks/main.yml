@@ -1,6 +1,12 @@
 # roles/cilium_hubble/tasks/main.yml
 ---
-
+- name: install pre-requisites
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes 
+      
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
@@ -25,8 +31,6 @@
     content: "{{ _kubeconfig_content }}"
     dest: "/root/.kube/config"
     mode: '0600'
-
-
 
 - ansible.builtin.shell:
     cmd: helm --kubeconfig={{ prxmkuberbootstrap_cilium_kubeconfig }} repo add cilium https://helm.cilium.io/
