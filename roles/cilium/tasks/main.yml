@@ -6,7 +6,7 @@
       - openshift
       - pyyaml
       - kubernetes 
-      
+
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
@@ -32,26 +32,30 @@
     dest: "/root/.kube/config"
     mode: '0600'
 
-- ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ prxmkuberbootstrap_cilium_kubeconfig }} repo add cilium https://helm.cilium.io/
-  args:
-    executable: /bin/bash
+- name: Add Cilium repository
+  kubernetes.core.helm_repository:
+    name: cilium
+    repo_url: https://helm.cilium.io/
 
-- name: Update Helm Repositories
-  ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ prxmkuberbootstrap_cilium_kubeconfig }} repo update
-
-- ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ prxmkuberbootstrap_cilium_kubeconfig }} upgrade --install cilium cilium/cilium --version {{ prxmkuberbootstrap_cilium_version }} 
-        --namespace cilium 
-        --create-namespace
-        --set hubble.relay.enabled={{ prxmkuberbootstrap_cilium_hubble_relay }}
-        --set hubble.ui.enabled={{ prxmkuberbootstrap_cilium_hubble_ui }} 
-        --set hubble.tls.auto.enabled={{ prxmkuberbootstrap_cilium_hubble_tls_auto }}
-        --set hubble.tls.auto.method=helm 
-        --set hubble.tls.auto.certValidityDuration=1095
-  args:
-    executable: /bin/bash
+- name: Install or upgrade Cilium Helm chart
+  community.kubernetes.helm:
+    name: cilium
+    chart_ref: cilium/cilium
+    chart_version: "{{ prxmkuberbootstrap_cilium_version }}"
+    release_namespace: cilium
+    create_namespace: true
+    release_values:
+      hubble:
+        relay:
+          enabled: "{{ prxmkuberbootstrap_cilium_hubble_relay }}"
+        ui:
+          enabled: "{{ prxmkuberbootstrap_cilium_hubble_ui }}"
+        tls:
+          auto:
+            enabled: "{{ prxmkuberbootstrap_cilium_hubble_tls_auto }}"
+            method: "helm"
+            certValidityDuration: 1095
+            
 - name: Generate random username
   set_fact:
     _cilium_hubble_username: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=8') }}"
