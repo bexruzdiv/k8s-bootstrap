@@ -1,4 +1,11 @@
 ---
+- name: install pre-requisites
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes 
+
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
@@ -25,26 +32,23 @@
     mode: '0600'
     
 - name: Add Ingress-Nginx Helm repository
-  ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ prxmkuberbootstrap_ingress_nginx_kubeconfig }} repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-  args:
-    executable: /bin/bash
-
-- name: Update Helm repositories
-  ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ prxmkuberbootstrap_ingress_nginx_kubeconfig }} repo update
-  args:
-    executable: /bin/bash
+  kubernetes.core.helm_repository:
+    name: ingress-nginx
+    repo_url: https://kubernetes.github.io/ingress-nginx
 
 - name: Install nginx-ingress with Helm
-  ansible.builtin.shell:
-    cmd: helm --kubeconfig={{ prxmkuberbootstrap_ingress_nginx_kubeconfig }} install nginx-ingress ingress-nginx/ingress-nginx 
-        --namespace ingress-nginx 
-        --create-namespace
-        --set controller.hostPort.enabled={{ nginx_ingress_controller_hostPort_enabled }} 
-        --set controller.hostNetwork={{ nginx_ingress_controller_hostNetwork }} 
-        --set controller.service.type={{ nginx_ingress_controller_service_type }} 
-        --set controller.kind={{ nginx_ingress_controller_kind }}
-  args:
-    executable: /bin/bash
-  
+  community.kubernetes.helm:
+    kubeconfig: "{{ prxmkuberbootstrap_ingress_nginx_kubeconfig }}"
+    name: nginx-ingress
+    chart_ref: ingress-nginx/ingress-nginx
+    release_namespace: ingress-nginx
+    create_namespace: true
+    release_values:
+      controller:
+        hostPort:
+          enabled: "{{ nginx_ingress_controller_hostPort_enabled }}"
+        hostNetwork: "{{ nginx_ingress_controller_hostNetwork }}"
+        service:
+          type: "{{ nginx_ingress_controller_service_type }}"
+        kind: "{{ nginx_ingress_controller_kind }}"
+
