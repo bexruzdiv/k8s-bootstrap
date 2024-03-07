@@ -1,5 +1,11 @@
 ---
 # tasks file for csi
+- name: install pre-requisites
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes 
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
@@ -25,12 +31,33 @@
     dest: "/root/.kube/config"
     mode: '0600'
     
+- name: Create namespace
+  community.kubernetes.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "hcloud-csi"
+
+- name: Create service account
+  community.kubernetes.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: hcloud
+        namespace: "hcloud-csi"
+      stringData:
+        token: "{{ csi_hcloud_api_token }}"
+      
 
 - name: Add hcloud-csi Helm repository
   when: cni_hcloud_check|bool
   kubernetes.core.helm_repository:
-    name: mlohr
-    repo_url: https://helm-charts.mlohr.com/
+    name: hcloud
+    repo_url: https://charts.hetzner.cloud
 
 - name: Add longhorn Helm repository
   when: not cni_hcloud_check|bool
@@ -50,16 +77,9 @@
 - name: Install or Upgrade hcloud-csi-driver with Helm
   when: cni_hcloud_check|bool
   community.kubernetes.helm:
-    name: hcloud-csi-driver
-    chart_ref: mlohr/hcloud-csi-driver
+    name: hcloud-csi
+    chart_ref: hcloud/hcloud-csi
     state: present
     release_namespace: hcloud-csi
     create_namespace: true
     kubeconfig: "{{ csi_kubeconfig }}"
-    release_values:
-      secret:
-        create: true
-        hcloudApiToken: "{{ csi_hcloud_api_token }}"
-      storageClass:
-        name: hcloud
-        isDefault: true
