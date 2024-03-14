@@ -37,3 +37,4 @@ __Features:__
 If you are using AWX! Enter your Vault address and Token. And specify the path where your kubernetes kubeconfig json file is located!
 
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/70007c01-95e6-4e35-9499-f5d382171401)
+
