@@ -34,4 +34,6 @@ __Features:__
  - Set domain name to Loadbalancer for **Hubble UI** 
  - Set variables in the defaults/main.yml
 
+If you are using AWX! Enter your Vault address and Token. And specify the path where your kubernetes kubeconfig json file is located!
+     
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/e05bcbf7-cd95-48ec-94f7-80e0b409f21d)
