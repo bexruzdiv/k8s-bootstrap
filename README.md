@@ -13,3 +13,8 @@ __Features:__
 - __Cilium__ is an open source project that enables networking, security, and observability for Kubernetes clusters and other containerized environments. Cilium is based on a technology called eBPF, which can inject network control logic, security controls, and observability features directly into the Linux kernel. Cilium uses eBPF to provide high-performance networking, multi-cluster and multi-cloud capabilities, encryption, load balancing, and network security features.
 ### Hubble
 - __Hubble__ is an observability and troubleshooting tool that integrates with Cilium to provide real-time visibility into network traffic within Kubernetes clusters. It captures network flow data and presents it in an intuitive user interface, allowing operators to understand how applications communicate and diagnose network-related issues quickly.
+
+### Ingress-Nginx
+ **Ingress-Nginx** is a Kubernetes Ingress controller that provides traffic routing, load balancing, and SSL termination for Kubernetes services. It is built on top of NGINX and designed to handle large-scale production workloads.
+ - **HTTP(S) Load Balancing:** Ingress-Nginx efficiently distributes incoming HTTP and HTTPS traffic across your Kubernetes services.
+ - **Path-Based Routing:**  Route traffic based on the request URL path to different backend services, allowing for fine-grained traffic control.
