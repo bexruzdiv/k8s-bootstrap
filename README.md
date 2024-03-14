@@ -29,9 +29,9 @@ __Features:__
 
 ### Cilium 
 #### Required of you!
- - Install **Helm** 
+ - Install `Helm`
  - Disable other CNI in kubernetes
- - Set domain name to Loadbalancer for **Hubble UI** 
+ - Set domain name to Loadbalancer for `Hubble UI`
  - Set variables in the defaults/main.yml
 
 If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the path where your kubernetes kubeconfig __json__ file is located! This is for connecting to kubernetes.
