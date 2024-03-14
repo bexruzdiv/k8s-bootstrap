@@ -18,3 +18,8 @@ __Features:__
  **Ingress-Nginx** is a Kubernetes Ingress controller that provides traffic routing, load balancing, and SSL termination for Kubernetes services. It is built on top of NGINX and designed to handle large-scale production workloads.
  - **HTTP(S) Load Balancing:** Ingress-Nginx efficiently distributes incoming HTTP and HTTPS traffic across your Kubernetes services.
  - **Path-Based Routing:**  Route traffic based on the request URL path to different backend services, allowing for fine-grained traffic control.
+ - **Web Application Firewall (WAF):** Built-in support for ModSecurity provides protection against common web vulnerabilities.
+
+### CSI
+#### CSI hcloud
+- CSI hcloud is a Container Storage Interface (CSI) driver specifically designed for integrating Hetzner Cloud Block Volumes with Kubernetes clusters. It allows Kubernetes users to easily provision, attach, and manage Hetzner Cloud Block Volumes as persistent volumes for their applications.
