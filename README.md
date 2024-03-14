@@ -39,7 +39,7 @@ If you are using __AWX!__ Enter your __Vault address__ and __Token__. And specif
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/70007c01-95e6-4e35-9499-f5d382171401)
 
  1. Set your **kubeconfig** path
- 2. Write the __domain__ name you previously set on the loadbalancer
+ 2. Write the `domain` name you previously set on the loadbalancer
  
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/0c90b546-cb5a-49e5-ba93-f3f1fb085f59)
 
