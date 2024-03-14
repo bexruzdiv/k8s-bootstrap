@@ -38,3 +38,6 @@ If you are using AWX! Enter your Vault address and Token. And specify the path w
 
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/70007c01-95e6-4e35-9499-f5d382171401)
 
+
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/0c90b546-cb5a-49e5-ba93-f3f1fb085f59)
+
