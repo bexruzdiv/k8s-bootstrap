@@ -24,3 +24,12 @@ __Features:__
 
 - **CSI hcloud** is a Container Storage Interface (CSI) driver specifically designed for integrating Hetzner Cloud Block Volumes with Kubernetes clusters. It allows Kubernetes users to easily provision, attach, and manage Hetzner Cloud Block Volumes as persistent volumes for their applications.
 - **Longhorn** delivers simplified, easy to deploy and upgrade, 100% open source, cloud-native persistent block storage without the cost overhead of open core or proprietary alternatives, offering features such as snapshots, backups, and volume replication. 
+
+## How to use ansible roles?
+
+### Cilium 
+#### Required of you!
+ - Install **Helm** 
+ - Disable other CNI in kubernetes
+ - Set domain name to Loadbalancer for **Hubble UI** 
+ - Set variables in the defaults/main.yml
