@@ -33,3 +33,4 @@ __Features:__
  - Disable other CNI in kubernetes
  - Set domain name to Loadbalancer for **Hubble UI** 
  - Set variables in the defaults/main.yml
+
