@@ -21,5 +21,6 @@ __Features:__
  - **Web Application Firewall (WAF):** Built-in support for ModSecurity provides protection against common web vulnerabilities.
 
 ### CSI
-#### CSI hcloud
-- CSI hcloud is a Container Storage Interface (CSI) driver specifically designed for integrating Hetzner Cloud Block Volumes with Kubernetes clusters. It allows Kubernetes users to easily provision, attach, and manage Hetzner Cloud Block Volumes as persistent volumes for their applications.
+
+- **CSI hcloud** is a Container Storage Interface (CSI) driver specifically designed for integrating Hetzner Cloud Block Volumes with Kubernetes clusters. It allows Kubernetes users to easily provision, attach, and manage Hetzner Cloud Block Volumes as persistent volumes for their applications.
+- Longhorn delivers simplified, easy to deploy and upgrade, 100% open source, cloud-native persistent block storage without the cost overhead of open core or proprietary alternatives, offering features such as snapshots, backups, and volume replication. 
