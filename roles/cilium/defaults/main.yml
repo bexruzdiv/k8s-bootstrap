@@ -1,6 +1,6 @@
 ---
 # defaults file for cilium
-
+#! Wariable for AWX user
 cilium_vault_address: # your vault domain or ip
 cilium_vault_token: # your vault token
 cilium_kubeconfig_vault_path: # path to kube config file in vault
