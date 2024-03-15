@@ -46,7 +46,8 @@ If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the 
 ***Hublle UI*** is encrypted for security by **basic-auth**. The **password** and **username** are stored in a secret named `save-hubble-basic-auth` in the `cilium namespace`
 
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/0445851a-6b85-42db-a046-fac9e9b90b3a)
-
+> [!TIP]
+> You can easily read username and password using the following commands
 ```
 kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.username}" | base64 --decode
 ```
