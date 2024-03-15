@@ -80,3 +80,6 @@ If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the 
 2. Set your email to `certmanager_email`
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/6c31472e-49da-451f-a39a-376e55797d0e)
 
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/41ff33ce-ac15-45e4-9f6b-047de7c24934)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/b116f4a4-56f6-4d9f-ada8-b9199d925a60)
+
