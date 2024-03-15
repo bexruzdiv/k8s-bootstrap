@@ -63,9 +63,9 @@ kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.password
 If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the path where your kubernetes kubeconfig __json__ file is located! This is for connecting to kubernetes.
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/07bfb55a-f132-4e5e-8d3d-8154af8174c1)
 
- 1. Set `ingress_nginx_hostPort_enabled` "true" if the k8s cluster is `Bare Metal`
- 2. Set `ingress_nginx_hostNetwork` "true" if the k8s cluster is `Bare Metal`
- 3. Set `ingress_nginx_service_type` "ClusterIP" if the k8s cluster is `Bare Metal` 
- 3. Set `ingress_nginx_kind` "DaemonSet" if the k8s cluster is `Bare Metal` 
+1. Set `ingress_nginx_hostPort_enabled` "true" if the k8s cluster is `Bare Metal`
+2. Set `ingress_nginx_hostNetwork` "true" if the k8s cluster is `Bare Metal`
+3. Set `ingress_nginx_service_type` "ClusterIP" if the k8s cluster is `Bare Metal` 
+4. Set `ingress_nginx_kind` "DaemonSet" if the k8s cluster is `Bare Metal` 
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/90a8bff1-9452-4259-8661-5b9e783d0c72)
 
