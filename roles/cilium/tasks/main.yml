@@ -6,7 +6,7 @@
       - openshift
       - pyyaml
       - kubernetes 
-
+#! AWX pod setup
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
   block:
     - name: Retrieve kubeconfig from Vault
@@ -31,6 +31,8 @@
     content: "{{ _kubeconfig_content }}"
     dest: "/root/.kube/config"
     mode: '0600'
+#! AWX pod setup
+
 
 - name: Add Cilium repository
   kubernetes.core.helm_repository:
@@ -74,10 +76,17 @@
   command: kubectl create secret generic save-hubble-basic-auth --from-literal=username="{{ _cilium_hubble_username }}" --from-literal=password="{{ _cilium_hubble_password }}" --namespace=cilium
   register: kubectl_output
   
-- name: Install apache2-utils package
-  yum:
-    name: httpd-tools 
+- name: Install apache2-utils package on Ubuntu using apt
+  apt:
+    name: apache2-utils
     state: present
+  when: ansible_distribution == 'Ubuntu'  # Check if the distribution is Ubuntu
+
+- name: Install httpd-tools package on CentOS using yum
+  yum:
+    name: httpd-tools
+    state: present
+  when: ansible_distribution == 'CentOS'  # Check if the distribution is CentOS
 
 - name: Create htpasswd file
   command: htpasswd -bc /root/htpasswd {{ _cilium_hubble_username }} {{ _cilium_hubble_password }}
