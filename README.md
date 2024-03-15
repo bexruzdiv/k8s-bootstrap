@@ -54,3 +54,8 @@ kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.username
 ```
 kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.password}" | base64 --decode
 ```
+
+
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/07bfb55a-f132-4e5e-8d3d-8154af8174c1)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/90a8bff1-9452-4259-8661-5b9e783d0c72)
+
