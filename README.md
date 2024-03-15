@@ -27,7 +27,7 @@ __Features:__
 
 ## How to use ansible roles?
 
-### Cilium 
+## Cilium 
 #### Required of you!
  - Install `Helm`
  - Disable other CNI in kubernetes
@@ -55,7 +55,7 @@ kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.username
 kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.password}" | base64 --decode
 ```
 
-### Ingress-Nginx 
+## Ingress-Nginx 
 #### Required of you!
  - Install `Helm`
  - Set variables in the defaults/main.yml
