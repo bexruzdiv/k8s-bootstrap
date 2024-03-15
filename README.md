@@ -55,7 +55,7 @@ kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.username
 kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.password}" | base64 --decode
 ```
 
-### Cilium 
+### Ingress-Nginx 
 #### Required of you!
  - Install `Helm`
  - Set variables in the defaults/main.yml
