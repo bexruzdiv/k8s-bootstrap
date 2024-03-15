@@ -69,3 +69,8 @@ If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the 
 4. Set `ingress_nginx_kind` "DaemonSet" if the k8s cluster is `Bare Metal` 
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/90a8bff1-9452-4259-8661-5b9e783d0c72)
 
+## Certmanager
+#### Required of you!
+ - Install `Helm`
+ - Set variables in the defaults/main.yml
+
