@@ -74,3 +74,6 @@ If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the 
  - Install `Helm`
  - Set variables in the defaults/main.yml
 
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/d79863d7-6def-41ee-9506-17852a247aa3)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/6c31472e-49da-451f-a39a-376e55797d0e)
+
