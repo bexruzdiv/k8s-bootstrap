@@ -80,6 +80,14 @@ If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the 
 2. Set your email to `certmanager_email`
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/6c31472e-49da-451f-a39a-376e55797d0e)
 
+## CSI 
+#### Required of you!
+ - Install `Helm`
+ - Set variables in the defaults/main.yml
+ If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the path where your kubernetes kubeconfig __json__ file is located! This is for connecting to kubernetes.
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/41ff33ce-ac15-45e4-9f6b-047de7c24934)
+1. Set `cni_hcloud_check` to "true" if you use `hcloud`
+2. Set path to your kube config. If you are using awx, don`t change it
+3. Set `csi_hcloud_api_token` to your hetzner account `token`
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/b116f4a4-56f6-4d9f-ada8-b9199d925a60)
 
