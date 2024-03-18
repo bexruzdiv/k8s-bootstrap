@@ -66,43 +66,38 @@
   set_fact:
     _cilium_hubble_password: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=16') }}"
 
-- name: Set environment variables
-  set_fact:
-    ansible_env:
-      USERNAME: "{{ _cilium_hubble_username }}"
-      PASSWORD: "{{ _cilium_hubble_password }}"
-
 - name: Create Kubernetes secret
   command: kubectl create secret generic save-hubble-basic-auth --from-literal=username="{{ _cilium_hubble_username }}" --from-literal=password="{{ _cilium_hubble_password }}" --namespace=cilium
   register: kubectl_output
   
 - name: Install apache2-utils package on Ubuntu using apt
+  when: ansible_distribution == 'Ubuntu'  # Check if the distribution is Ubuntu
   apt:
     name: apache2-utils
     state: present
-  when: ansible_distribution == 'Ubuntu'  # Check if the distribution is Ubuntu
 
 - name: Install httpd-tools package on CentOS using yum
+  when: ansible_distribution == 'CentOS'  # Check if the distribution is CentOS
   yum:
     name: httpd-tools
     state: present
-  when: ansible_distribution == 'CentOS'  # Check if the distribution is CentOS
 
 - name: Create htpasswd file
   command: htpasswd -bc /root/htpasswd {{ _cilium_hubble_username }} {{ _cilium_hubble_password }}
   args:
-    creates: "{{ cilium_ingress_file_path }}/htpasswd"
+    creates: "/root/htpasswd"
 
 - name: Create Kubernetes secret from htpasswd file
-  command: kubectl create secret generic hubble-basic-auth --from-file=auth={{ cilium_ingress_file_path }}/htpasswd --namespace cilium
+  command: kubectl create secret generic hubble-basic-auth --from-file=auth=/root/htpasswd --namespace cilium
   args:
     creates: basic-auth-secret
   
 - name: Copy Jinja2 template to target directory
   ansible.builtin.template:
     src: templates/ingress.j2
-    dest: "{{ cilium_ingress_file_path }}/ingress-hubble.yml"
+    dest: "/root/ingress-hubble.yml"
 
 - name: Apply ingress configuration
-  ansible.builtin.command: kubectl apply -f {{ cilium_ingress_file_path }}/ingress-hubble.yml
-
+  community.kubernetes.k8s:
+    src: "/root/ingress-hubble.yml"
+    state: present

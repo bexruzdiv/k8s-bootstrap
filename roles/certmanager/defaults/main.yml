@@ -5,7 +5,7 @@ certmanager_vault_token: # your vault token
 certmanager_kubeconfig_vault_path: # path to kube config file in vault
 
 certmanager_kubeconfig: /root/.kube/config  # path to your kube config #if you are using awx, dont change it
-certmanager_email: # your email
+certmanager_email: example@gmail.com# your email
 certmanager_version: v1.13.2 
 
 
