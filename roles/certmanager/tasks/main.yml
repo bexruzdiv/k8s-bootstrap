@@ -20,7 +20,7 @@
     - name: Retrieve kubeconfig from Vault
       shell: vault kv get -field=value {{ certmanager_kubeconfig_vault_path }}
       environment:
-        VAULT_ADDR: "{{ certmanager_vault_address }}"
+        VAULT_ADDR: "{{ lookup('env', 'VAULT_ADDR') }}"
         VAULT_TOKEN: "{{  __login_data.login.auth.client_token }}"
       register: __kubeconfig_json
 
