@@ -6,30 +6,39 @@
       - pyyaml
       - kubernetes 
 
-# - name: Retrieve kubeconfig from Vault and write to a user-writable location
-#   block:
-#     - name: Retrieve kubeconfig from Vault
-#       shell: vault kv get -field=value {{ certmanager_kubeconfig_vault_path }}
-#       environment:
-#         VAULT_ADDR: "{{ certmanager_vault_address }}"
-#         VAULT_TOKEN: "{{ certmanager_vault_token }}"
-#       register: __kubeconfig_json
+- name: Get role token from Vault
+  community.hashi_vault.vault_login:
+    url: "{{ lookup('env', 'VAULT_ADDR') }}"
+    auth_method: approle
+    mount_point: "approle"
+    role_id: "{{ VAULT_ROLE_ID }}"
+    secret_id: "{{ VAULT_SECRET_ID }}" 
+  register: __login_data
 
-# - name: Convert JSON to YAML and save to a variable
-#   set_fact:
-#     _kubeconfig_content: "{{ __kubeconfig_json.stdout | from_json | to_nice_yaml }}"
+- name: Retrieve kubeconfig from Vault and write to a user-writable location
+  block:
+    - name: Retrieve kubeconfig from Vault
+      shell: vault kv get -field=value {{ certmanager_kubeconfig_vault_path }}
+      environment:
+        VAULT_ADDR: "{{ certmanager_vault_address }}"
+        VAULT_TOKEN: "{{  __login_data.login.auth.client_token }}"
+      register: __kubeconfig_json
 
-# - name: Ensure .kube directory exists
-#   file:
-#     path: "/root/.kube"
-#     state: directory
-#     mode: '0755'
+- name: Convert JSON to YAML and save to a variable
+  set_fact:
+    _kubeconfig_content: "{{ __kubeconfig_json.stdout | from_json | to_nice_yaml }}"
 
-# - name: Save kubeconfig to /root/.kube/config
-#   copy:
-#     content: "{{ _kubeconfig_content }}"
-#     dest: "/root/.kube/config"
-#     mode: '0600'
+- name: Ensure .kube directory exists
+  file:
+    path: "/root/.kube"
+    state: directory
+    mode: '0755'
+
+- name: Save kubeconfig to /root/.kube/config
+  copy:
+    content: "{{ _kubeconfig_content }}"
+    dest: "/root/.kube/config"
+    mode: '0600'
 
 - name: Add Jetstack Helm Repository
   kubernetes.core.helm_repository:
