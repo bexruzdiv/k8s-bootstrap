@@ -11,8 +11,8 @@
     url: "{{ lookup('env', 'VAULT_ADDR') }}"
     auth_method: approle
     mount_point: "approle"
-    role_id: "{{ VAULT_ROLE_ID }}"
-    secret_id: "{{ VAULT_SECRET_ID }}" 
+    role_id: "{{ ansible_hashi_vault_role_id }}"
+    secret_id: "{{ ansible_hashi_vault_secret_id }}" 
   register: __login_data
 
 - name: Retrieve kubeconfig from Vault and write to a user-writable location
