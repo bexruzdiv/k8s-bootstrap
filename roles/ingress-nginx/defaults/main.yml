@@ -4,7 +4,7 @@ ingress_nginx_kubeconfig_vault_path: # path to kube config file in vault
 ingress_nginx_kubeconfig: /root/.kube/config   # path to your kube config #if you are using awx, dont change it
 
 
-ingress_nginx_hostPort_enabled: true   #use "true" if the k8s cluster is Bare Metal
-ingress_nginx_hostNetwork: true   #use "true" if the k8s cluster is Bare Metal
-ingress_nginx_service_type: ClusterIP # use "ClusterIP" if the k8s cluster is Bare Metal
-ingress_nginx_kind: DaemonSet # use "DaemonSet" if the k8s cluster is Bare Metal
+ingress_nginx_hostPort_enabled: false   #use "true" if the k8s cluster is Bare Metal
+ingress_nginx_hostNetwork: false   #use "true" if the k8s cluster is Bare Metal
+ingress_nginx_service_type: LoadBalancer # use "ClusterIP" if the k8s cluster is Bare Metal
+ingress_nginx_kind: Deployment # use "DaemonSet" if the k8s cluster is Bare Metal
