@@ -1,9 +1,7 @@
 ---
 # defaults file for csi
-csi_vault_address: # your vault domain or ip
-csi_vault_token:  # your vault token
 csi_kubeconfig_vault_path: # path to kube config file in vault
 
 cni_hcloud_check: true   # set to "true" for use hcloud-csi-driver 
 csi_kubeconfig: /root/.kube/config # path to your kube config #if you are using awx, dont change it
-csi_hcloud_api_token: "6BXCzH0kFVt8VIoGMF8r4QIZv4CuHsjYKX7pvZjsPK39HjWQwpRNWs1nVa2ve42X"
+csi_hcloud_api_token: "" #your hetzner cloud api

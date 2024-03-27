@@ -40,6 +40,7 @@
     dest: "/root/.kube/config"
     mode: '0600'
 
+
 - name: Add Jetstack Helm Repository
   kubernetes.core.helm_repository:
     name: jetstack
