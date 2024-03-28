@@ -108,7 +108,7 @@ extra_vars:
   ```
   vault write auth/approle/role/awx-user \
     token_max_ttl=24h \
-    token_ttl=1h \ 
+    token_ttl=1h \
     token_policies="awx-user-policy"
   ```
 
