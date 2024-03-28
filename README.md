@@ -42,7 +42,7 @@ yq eval -o=json .kube/config > config.json
 ```
 - Send json formatted file to vault
 ```
-vault kv put secret/k8s/kubeconfig value=@config.json
+vault kv put secret/awx/kubeconfig value=@config.json
 ```
 > [!NOTE]
 > Open AWX now and follow the steps below!
@@ -88,7 +88,38 @@ extra_vars:
 
 - Push "Save" button
 
+> [!NOTE]
+> Now open Vault (UI or CLI) and follow the steps below!
 
+- Enable approle auth if it is necessary
+  ```
+  vault auth enable approle
+  ```
+
+- Create access policy for access from AWX (For example policy name is "awx-user-policy")
+  ```
+  vault policy write awx-user-policy - <<EOF
+  path "secret/data/awx/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+  }
+  EOF
+  ```
+- Create role in approle and attach access policy (For example user name is "awx-user" and policy name is "awx-user-policy")
+  ```
+  vault write auth/approle/role/awx-user \
+    token_max_ttl=24h \
+    token_ttl=1h \ 
+    token_policies="awx-user-policy"
+  ```
+
+- Print role id and secret id (User "awx-user"). We use this ids for creating credential in AWX
+  ```
+  vault read auth/approle/role/awx-user/role-id
+  ```
+  ```
+  vault write -f auth/approle/role/awx-user/secret-id
+  ```
+  
 - Set the variable to the path to the Vault where config.json is located (In my case: secret/k8s/kubeconfig)
 
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/f85b4eea-c171-445e-b409-a187a942be0a)
