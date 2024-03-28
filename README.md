@@ -33,12 +33,68 @@ __Features:__
  - Disable other CNI in kubernetes
  - Set domain name to Loadbalancer for `Hubble UI`
  - Set variables in the defaults/main.yml
+> [!WARNING]
+> If you are using `AWX!` Follow the steps below. This is for connecting to kubernetes.
 
-If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the path where your kubernetes kubeconfig __json__ file is located! This is for connecting to kubernetes.
+- Convert kubeconfig file to json format
+```
+yq eval -o=json .kube/config > config.json
+```
+- Send json formatted file to vault
+```
+vault kv put secret/k8s/kubeconfig value=@config.json
+```
+> [!NOTE]
+> Open AWX now and follow the steps below!
 
-![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/70007c01-95e6-4e35-9499-f5d382171401)
+- Create credential type in AWX. From left menu "Credential Types" ➝ Add
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/baa6e99d-a80c-48a0-a7e1-85bdbfed2536)
 
- 1. Set your **kubeconfig** path
+- Name: Name for credential Type.
+- Description: Description for Credential type (Oprional)
+- Injector configuration: 
+```
+fields:
+  - id: vault_url
+    type: string
+    label: Vault URL
+  - id: role_id
+    type: string
+    label: App Role ID
+  - id: secret_id
+    type: string
+    label: App Role Secret ID
+    secret: true
+required:
+  - vault_url
+  - role_id
+  - secret_id
+```
+- Second Injector configuration:
+```
+env:
+  VAULT_ADDR: '{{ vault_url }}'
+  VAULT_ROLE_ID: '{{ role_id }}'
+  VAULT_SECRET_ID: '{{ secret_id }}'
+  VAULT_AUTH_METHOD: approle
+extra_vars:
+  ansible_hashi_vault_url: '{{ vault_url }}'
+  ansible_hashi_vault_role_id: '{{ role_id }}'
+  ansible_hashi_vault_secret_id: '{{ secret_id }}'
+  ansible_hashi_vault_auth_method: approle
+```
+
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/ebdf64aa-823e-4632-921f-c93aa23f772d)
+
+- Push "Save" button
+
+
+- Set the variable to the path to the Vault where config.json is located (In my case: secret/k8s/kubeconfig)
+
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/f85b4eea-c171-445e-b409-a187a942be0a)
+
+
+
  2. Write the `domain` name you previously set on the loadbalancer
  
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/0c90b546-cb5a-49e5-ba93-f3f1fb085f59)
