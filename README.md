@@ -171,13 +171,14 @@ kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.password
  - Set variables in the defaults/main.yml
 
 1. Set the variable from defaults file to the path to the Vault where config.json is located (In my case: secret/awx/kubeconfig)
-![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/07bfb55a-f132-4e5e-8d3d-8154af8174c1)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/63469882-cd49-46a7-bd03-d81dc5f6f626)
 
 2. Set `ingress_nginx_hostPort_enabled` "true" if the k8s cluster is `Bare Metal`
 3. Set `ingress_nginx_hostNetwork` "true" if the k8s cluster is `Bare Metal`
 4. Set `ingress_nginx_service_type` "ClusterIP" if the k8s cluster is `Bare Metal` 
 5. Set `ingress_nginx_kind` "DaemonSet" if the k8s cluster is `Bare Metal` 
-![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/90a8bff1-9452-4259-8661-5b9e783d0c72)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/96af21a3-34b0-4029-aa1e-25607a8abde6)
+
 
 ## Certmanager
 #### Required of you!
@@ -185,11 +186,12 @@ kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.password
  - Install `Helm`
  - Set variables in the defaults/main.yml
 1. Set the variable from defaults file to the path to the Vault where config.json is located (In my case: secret/awx/kubeconfig)
-![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/d79863d7-6def-41ee-9506-17852a247aa3)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/bd50aa4c-c36d-4b99-918d-b2d11a8af34a)
 
 2. Set path to your kube config. If you are using awx, don`t change it
 3. Set your email to `certmanager_email`
-![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/6c31472e-49da-451f-a39a-376e55797d0e)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/4d384c6a-3a79-4202-939f-eb9cb6a88129)
+
 
 ## CSI 
 #### Required of you!
@@ -197,9 +199,11 @@ kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.password
  - Install `Helm`
  - Set variables in the defaults/main.yml
 1. Set the variable from defaults file to the path to the Vault where config.json is located (In my case: secret/awx/kubeconfig)
-![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/41ff33ce-ac15-45e4-9f6b-047de7c24934)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/958ff791-158b-4de7-8270-177dad6a20da)
+
 2. Set `cni_hcloud_check` to "true" if you use `hcloud`
 3. Set path to your kube config. If you are using awx, don`t change it
 4. Set `csi_hcloud_api_token` to your hetzner account `token`
-![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/b116f4a4-56f6-4d9f-ada8-b9199d925a60)
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/2fbc82da-1a82-41c8-b025-0c0512202ad6)
+
 
