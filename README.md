@@ -25,14 +25,6 @@ __Features:__
 - **CSI hcloud** is a Container Storage Interface (CSI) driver specifically designed for integrating Hetzner Cloud Block Volumes with Kubernetes clusters. It allows Kubernetes users to easily provision, attach, and manage Hetzner Cloud Block Volumes as persistent volumes for their applications.
 - **Longhorn** delivers simplified, easy to deploy and upgrade, 100% open source, cloud-native persistent block storage without the cost overhead of open core or proprietary alternatives, offering features such as snapshots, backups, and volume replication. 
 
-## How to use ansible roles?
-
-## Cilium 
-#### Required of you!
- - Install `Helm`
- - Disable other CNI in kubernetes
- - Set domain name to Loadbalancer for `Hubble UI`
- - Set variables in the defaults/main.yml
 > [!WARNING]
 > If you are using `AWX!` Follow the steps below. This is for connecting to kubernetes.
 
@@ -119,10 +111,39 @@ extra_vars:
   ```
   vault write -f auth/approle/role/awx-user/secret-id
   ```
-  
-- Set the variable to the path to the Vault where config.json is located (In my case: secret/k8s/kubeconfig)
 
-![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/f85b4eea-c171-445e-b409-a187a942be0a)
+- We can write and read data from Vault for checking access polity
+  ```
+  vault kv put secret/awx/test test='working'  
+  ```
+  ```
+  vault kv get -format=json secret/awx/test | jq ".data.data"
+  ```
+
+> [!NOTE]
+> Create Credential in AWX
+
+- From left menu "Credentials" ➝ Add
+- Name: Name for credential
+- Description: Description for Credential (Oprional)
+- Organization: Choose organization
+- Credential Type: Find choose credential type name, which we created above
+- Vault URL: Url of vault server (For example https://vault.uz)
+- App Role ID: Role id, which we get above 
+- App Role Secret ID: Secret id, which we get above
+- Push "Save" button 
+
+## How to use ansible roles?
+
+## Cilium 
+#### Required of you!
+ - Install `Helm`
+ - Disable other CNI in kubernetes
+ - Set domain name to Loadbalancer for `Hubble UI`
+ - Set variables in the defaults/main.yml
+1. Set the variable from defaults file to the path to the Vault where config.json is located (In my case: secret/awx/kubeconfig)
+
+![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/9318f759-e8aa-4487-8441-d4f3dc23ffe5)
 
 
 
@@ -171,7 +192,7 @@ If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the 
 #### Required of you!
  - Install `Helm`
  - Set variables in the defaults/main.yml
- If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the path where your kubernetes kubeconfig __json__ file is located! This is for connecting to kubernetes.
+ If you are using `AWX!` follow the steps below ! This is for connecting to kubernetes.
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/41ff33ce-ac15-45e4-9f6b-047de7c24934)
 1. Set `cni_hcloud_check` to "true" if you use `hcloud`
 2. Set path to your kube config. If you are using awx, don`t change it
