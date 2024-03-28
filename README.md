@@ -192,7 +192,7 @@ If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the 
 #### Required of you!
  - Install `Helm`
  - Set variables in the defaults/main.yml
- If you are using `AWX!` follow the steps below ! This is for connecting to kubernetes.
+ If you are using `AWX!` follow the steps below [AWX settings](https://github.com/bexruzdiv/k8s-bootstrap/blob/main/README.md#awx-settings).! This is for connecting to kubernetes.
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/41ff33ce-ac15-45e4-9f6b-047de7c24934)
 1. Set `cni_hcloud_check` to "true" if you use `hcloud`
 2. Set path to your kube config. If you are using awx, don`t change it
