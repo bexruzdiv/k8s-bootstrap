@@ -137,6 +137,7 @@ extra_vars:
 
 ## Cilium 
 #### Required of you!
+ - If you are using `AWX!` follow the steps below [AWX settings](https://github.com/bexruzdiv/k8s-bootstrap/blob/main/README.md#awx-settings).! This is for connecting to kubernetes.
  - Install `Helm`
  - Disable other CNI in kubernetes
  - Set domain name to Loadbalancer for `Hubble UI`
@@ -165,37 +166,40 @@ kubectl get secret save-hubble-basic-auth -n cilium -o jsonpath="{.data.password
 
 ## Ingress-Nginx 
 #### Required of you!
+ - If you are using `AWX!` follow the steps below [AWX settings](https://github.com/bexruzdiv/k8s-bootstrap/blob/main/README.md#awx-settings).! This is for connecting to kubernetes.
  - Install `Helm`
  - Set variables in the defaults/main.yml
 
-If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the path where your kubernetes kubeconfig __json__ file is located! This is for connecting to kubernetes.
+1. Set the variable from defaults file to the path to the Vault where config.json is located (In my case: secret/awx/kubeconfig)
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/07bfb55a-f132-4e5e-8d3d-8154af8174c1)
 
-1. Set `ingress_nginx_hostPort_enabled` "true" if the k8s cluster is `Bare Metal`
-2. Set `ingress_nginx_hostNetwork` "true" if the k8s cluster is `Bare Metal`
-3. Set `ingress_nginx_service_type` "ClusterIP" if the k8s cluster is `Bare Metal` 
-4. Set `ingress_nginx_kind` "DaemonSet" if the k8s cluster is `Bare Metal` 
+2. Set `ingress_nginx_hostPort_enabled` "true" if the k8s cluster is `Bare Metal`
+3. Set `ingress_nginx_hostNetwork` "true" if the k8s cluster is `Bare Metal`
+4. Set `ingress_nginx_service_type` "ClusterIP" if the k8s cluster is `Bare Metal` 
+5. Set `ingress_nginx_kind` "DaemonSet" if the k8s cluster is `Bare Metal` 
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/90a8bff1-9452-4259-8661-5b9e783d0c72)
 
 ## Certmanager
 #### Required of you!
+ - If you are using `AWX!` follow the steps below [AWX settings](https://github.com/bexruzdiv/k8s-bootstrap/blob/main/README.md#awx-settings).! This is for connecting to kubernetes.
  - Install `Helm`
  - Set variables in the defaults/main.yml
-If you are using `AWX!` Enter your `Vault address` and `Token`. And specify the path where your kubernetes kubeconfig __json__ file is located! This is for connecting to kubernetes.
+1. Set the variable from defaults file to the path to the Vault where config.json is located (In my case: secret/awx/kubeconfig)
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/d79863d7-6def-41ee-9506-17852a247aa3)
 
-1. Set path to your kube config. If you are using awx, don`t change it
-2. Set your email to `certmanager_email`
+2. Set path to your kube config. If you are using awx, don`t change it
+3. Set your email to `certmanager_email`
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/6c31472e-49da-451f-a39a-376e55797d0e)
 
 ## CSI 
 #### Required of you!
+ - If you are using `AWX!` follow the steps below [AWX settings](https://github.com/bexruzdiv/k8s-bootstrap/blob/main/README.md#awx-settings).! This is for connecting to kubernetes.
  - Install `Helm`
  - Set variables in the defaults/main.yml
- If you are using `AWX!` follow the steps below [AWX settings](https://github.com/bexruzdiv/k8s-bootstrap/blob/main/README.md#awx-settings).! This is for connecting to kubernetes.
+1. Set the variable from defaults file to the path to the Vault where config.json is located (In my case: secret/awx/kubeconfig)
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/41ff33ce-ac15-45e4-9f6b-047de7c24934)
-1. Set `cni_hcloud_check` to "true" if you use `hcloud`
-2. Set path to your kube config. If you are using awx, don`t change it
-3. Set `csi_hcloud_api_token` to your hetzner account `token`
+2. Set `cni_hcloud_check` to "true" if you use `hcloud`
+3. Set path to your kube config. If you are using awx, don`t change it
+4. Set `csi_hcloud_api_token` to your hetzner account `token`
 ![image](https://github.com/bexruzdiv/k8s-bootstrap/assets/107495220/b116f4a4-56f6-4d9f-ada8-b9199d925a60)
 
