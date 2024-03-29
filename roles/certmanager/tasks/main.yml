@@ -8,7 +8,7 @@
 
 - name: Get role token from Vault
   community.hashi_vault.vault_login:
-    url: "{{ lookup('env', 'VAULT_ADDR') }}"
+    url: "{{ certmanager_vault_address }}"
     auth_method: approle
     mount_point: "approle"
     role_id: "{{ ansible_hashi_vault_role_id }}"
@@ -20,8 +20,8 @@
     - name: Retrieve kubeconfig from Vault
       shell: vault kv get -field=value {{ certmanager_kubeconfig_vault_path }}
       environment:
-        VAULT_ADDR: "{{ lookup('env', 'VAULT_ADDR') }}"
-        VAULT_TOKEN: "{{  __login_data.login.auth.client_token }}"
+        VAULT_ADDR: "{{ certmanager_vault_address }}"
+        VAULT_TOKEN: "{{ certmanager_vault_token }}"
       register: __kubeconfig_json
 
 - name: Convert JSON to YAML and save to a variable
@@ -65,12 +65,10 @@
     src: issuer.yml.j2
     dest: /root/issuer.yml
 
-
 - name: Apply Issuer Configuration
-  ansible.builtin.command:
-    cmd: kubectl apply -f /root/issuer.yml -n cert-managerer
-  args:
-    executable: /bin/bash
+  community.kubernetes.k8s:
+    src: /root/issuer.yml
+    state: present
 
 - name: Delete a specific file
   ansible.builtin.file:

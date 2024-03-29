@@ -1,5 +1,7 @@
 ---
 # defaults file for csi
+csi_vault_address: "{{ lookup('env', 'VAULT_ADDR') }}"
+csi_vault_token: "{{  __login_data.login.auth.client_token }}"
 csi_kubeconfig_vault_path: # path to kube config file in vault
 
 cni_hcloud_check: true   # set to "true" for use hcloud-csi-driver 

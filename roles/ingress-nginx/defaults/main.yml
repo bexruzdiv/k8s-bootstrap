@@ -1,5 +1,7 @@
 ---
 # default file for ingress-nginx
+ingress_nginx_vault_address: "{{ lookup('env', 'VAULT_ADDR') }}"
+ingress_nginx_vault_token: "{{  __login_data.login.auth.client_token }}"
 ingress_nginx_kubeconfig_vault_path: # path to kube config file in vault
 ingress_nginx_kubeconfig: /root/.kube/config   # path to your kube config #if you are using awx, dont change it
 

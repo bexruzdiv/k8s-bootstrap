@@ -1,5 +1,7 @@
 ---
 # defaults file for certmanager
+certmanager_vault_address: "{{ lookup('env', 'VAULT_ADDR') }}"
+certmanager_vault_token: "{{  __login_data.login.auth.client_token }}"
 certmanager_kubeconfig_vault_path: # path to kube config file in vault
 
 certmanager_kubeconfig: /root/.kube/config  # path to your kube config #if you are using awx, dont change it

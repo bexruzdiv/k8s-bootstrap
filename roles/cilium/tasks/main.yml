@@ -9,7 +9,7 @@
 #! AWX pod setup
 - name: Get role token from Vault
   community.hashi_vault.vault_login:
-    url: "{{ lookup('env', 'VAULT_ADDR') }}"
+    url: "{{ cilium_vault_address }}"
     auth_method: approle
     mount_point: "approle"
     role_id: "{{ ansible_hashi_vault_role_id }}"
@@ -21,8 +21,8 @@
     - name: Retrieve kubeconfig from Vault
       shell: vault kv get -field=value {{ cilium_kubeconfig_vault_path }}
       environment:
-        VAULT_ADDR: "{{ lookup('env', 'VAULT_ADDR') }}"
-        VAULT_TOKEN: "{{  __login_data.login.auth.client_token }}"
+        VAULT_ADDR: "{{ cilium_vault_address }}"
+        VAULT_TOKEN: "{{ cilium_vault_token }}"
       register: __kubeconfig_json
 
 - name: Convert JSON to YAML and save to a variable
